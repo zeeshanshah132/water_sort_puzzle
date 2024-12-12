@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class GameScreen extends StatefulWidget {
@@ -87,7 +88,7 @@ class _GameScreenState extends State<GameScreen> {
   // Check if all bottles are solved
   void checkLevelCompletion() {
     bool isCompleted = bottles.every((bottle) =>
-    bottle.isEmpty ||
+        bottle.isEmpty ||
         (bottle.length == 4 && bottle.every((color) => color == bottle[0])));
     if (isCompleted) {
       setState(() {
@@ -114,19 +115,19 @@ class _GameScreenState extends State<GameScreen> {
           borderRadius: BorderRadius.circular(10),
           boxShadow: isCompleted
               ? [
-            BoxShadow(
-              color: Colors.green.withOpacity(0.8),
-              offset: Offset(4, 4),
-              blurRadius: 12,
-            ),
-          ]
+                  BoxShadow(
+                    color: Colors.green.withOpacity(0.8),
+                    offset: Offset(4, 4),
+                    blurRadius: 12,
+                  ),
+                ]
               : [],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: List.generate(
             bottles[index].length,
-                (i) => AnimatedContainer(
+            (i) => AnimatedContainer(
               duration: Duration(milliseconds: 300),
               width: 40,
               height: 40,
@@ -171,7 +172,7 @@ class _GameScreenState extends State<GameScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           mid,
-              (i) => Padding(
+          (i) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             // Horizontal gap
             child: buildBottle(i),
@@ -187,7 +188,7 @@ class _GameScreenState extends State<GameScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
             bottles.length - mid,
-                (i) => Padding(
+            (i) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               // Horizontal gap
               child: buildBottle(i + mid),
@@ -213,9 +214,21 @@ class _GameScreenState extends State<GameScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Complete the puzzle!',
-              style: TextStyle(fontSize: 24),
+            SizedBox(height: 20),
+            AnimatedTextKit(
+              animatedTexts: [
+                TypewriterAnimatedText(
+                  'Level ${widget.level}',
+                  textStyle: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                  speed: Duration(milliseconds: 150),
+                ),
+              ],
+              totalRepeatCount: 1, // Animation will run once
+              pause: Duration(seconds: 1), displayFullTextOnTap: true,
             ),
             SizedBox(height: 20),
             buildBottleRows(),
